@@ -1,0 +1,59 @@
+<div id="app" class="container jumbotron" xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <p style="font-weight: bold; font-size: 40pt">{{ number }}</p>
+    <button v-on:click="count" class="btn btn-success btn-lrg">Count Up</button>
+</div>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="../vue-app/src/vueapp.js"></script>
+
+
+<script>
+
+  var app = new Vue({
+    el: '#app',
+    data: {
+      //get value from counter object
+      number: <%- counter.value %>,
+      loaded: false
+    },
+
+    methods: {
+      //Send updated counter value to DB
+      count: function() {
+        this.number += 1;
+
+        jQuery.post('http://localhost:1337/updateCounter', {value: this.number}, function (data) {
+
+        });
+
+        //vue-response
+        /**this.$http.post('http://localhost:1337/updateCounter', {value: this.number}).then(
+            function(data) {
+              alert("This value was sent from vue " + data);
+
+
+               .then(function(data) {
+            console.log("This value was sent from vue " + data);
+            }
+        });
+               */
+      }
+
+    }
+  })
+</script>
+
+<style>
+  .container {
+    text-align: center;
+    margin-top: 30pt;
+    width: 400pt;
+  }
+
+  .btn-lrg {
+    font-size: 20pt;
+    font-weight: bold;
+  }
+
+</style>
+
