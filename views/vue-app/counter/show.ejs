@@ -4,12 +4,13 @@
 </div>
 
 <script src="https://unpkg.com/vue"></script>
-<script src="../vue-app/src/vueapp.js"></script>
+<script src="../src/vueapp.js"></script>
 
 
 <script>
 
-  var app = new Vue({
+
+  new Vue({
     el: '#app',
     data: {
       //get value from counter object
@@ -26,17 +27,18 @@
 
         });
 
-        //vue-response
-        /**this.$http.post('http://localhost:1337/updateCounter', {value: this.number}).then(
+        //vue-response. For some reason, when this is enabled,
+        //only the {{ number }} placeholder is visible
+        /*this.$http.post('http://localhost:1337/updateCounter', {value: this.number}).then(
             function(data) {
               alert("This value was sent from vue " + data);
 
 
                .then(function(data) {
             console.log("This value was sent from vue " + data);
-            }
-        });
-               */
+            })
+        });*/
+
       }
 
     }

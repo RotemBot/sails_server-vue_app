@@ -1,8 +1,17 @@
-<div id="app" class="container container-fluid jumbotron" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<!--<div id="app" class="container container-fluid jumbotron" xmlns:v-on="http://www.w3.org/1999/xhtml">
    <a href="/counter">
     <button class="btn btn-success btn-lrg">Start Counter</button>
    </a>
 
+</div>-->
+
+<div class="container">
+  <div class="jumbotron">
+    <h2>Welcome!</h2>
+    <a href="/user/signin" class="btn btn-lg btn-success">Log In</a>
+    <br />
+    <a href="/user/new" class="link">Don't have an account yet?</a>
+  </div>
 </div>
 
 <style>
@@ -12,9 +21,14 @@
     width: 300pt;
   }
 
-  .btn-lrg {
-    font-size: 20pt;
+  .link {
+    font-style: italic;
+    text-decoration: underline;
     font-weight: bold;
+  }
+
+  .btn {
+    margin: 10%;
   }
 
 </style>

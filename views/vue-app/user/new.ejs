@@ -1,0 +1,155 @@
+<div class="form-signin" id="signup" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+  <h2 class="form-signin-heading">Create An Account</h2>
+
+  <!-- Display incorrect input messages -->
+  <% if(flash && flash.err) { %>
+  <ul class="alert alert-success">
+    <% Object.keys(flash.err).forEach(function(error) { %>
+    <li><%- JSON.stringify(flash.err[error]) %></li>
+    <% }) %>
+  </ul>
+  <% } %>
+
+  <p class="warning" v-show="fname_error">* First Name is a mandatory field</p>
+  <input v-model="f_name" v-bind:class = "{ 'error' : fname_error}" @blur="checkFName" type="text" class="form-control" placeholder="First Name" name="first_name">
+
+  <p class="warning" v-show="lname_error">* Last Name is a mandatory field</p>
+  <input v-model="l_name" v-bind:class = "{ 'error' : lname_error}" @blur="checkLName" type="text" class="form-control" placeholder="Last Name" name="last_name">
+
+  <input v-model="title" type="text" class="form-control" placeholder="Title (optional)" name="title">
+
+  <p class="warning" v-show="email_error">* Email is a mandatory field</p>
+  <input v-model="email" v-bind:class = "{ 'error' : email_error}" @blur="checkEmail" type="text" class="form-control" placeholder="Email" name="email">
+
+  <p class="warning" v-show="nullpass_error">Password needs to be at least 6 characters</p>
+  <input v-model="password" v-bind:class = "{ 'error' : nullpass_error}" @blur="checkPass" type="password" class="form-control" placeholder="Password" name="password">
+
+  <p class="warning" v-show="pass_error">Passwords do not match</p>
+
+  <input v-model="password_conf" type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation">
+  <br />
+
+  <!--<input type="submit" @click="submit" class="btn btn-lg btn-primary btn-block" value="Create Account">-->
+  <button @click="submit" class="btn btn-lg btn-primary btn-block">Create Account</button>
+
+  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+</div>
+
+<link rel="stylesheet" href="/styles/form.css">
+
+<script>
+  new Vue({
+    el: "#signup",
+    data: {
+      f_name: "",
+      l_name: "",
+      title: "",
+      email: "",
+      password: "",
+      password_conf: "",
+
+      fname_error: false,
+      lname_error: false,
+      email_error: false,
+      nullpass_error: false,
+      pass_error: false,
+      //untouched form
+      empty: true
+
+    },
+    methods: {
+      submit: function() {
+
+          //check password confirmation
+        if(!(this.password === this.password_conf)) {
+            this.pass_error = true;
+            return;
+        }
+        else if(this.empty) {
+          this.fname_error = true;
+          this.lname_error = true;
+          this.email_error = true;
+          this.nullpass_error = true;
+        }
+
+        // If any other field is invalid
+        else if(this.fname_error || this.lname_error || this.email_error || this.nullpass_error) {
+          alert("Invalid Fields!");
+        }
+
+        else {
+          this.pass_error = false;
+          jQuery.post('http://localhost:1337/user/create', {
+              fName: this.f_name,
+              lName: this.l_name,
+              title: this.title,
+              email: this.email,
+              encPassword: this.password
+            },
+            function (data) {
+
+            });
+        }
+      },
+
+      checkFName: function() {
+          this.empty = false;
+          //Don't leave first name blank
+          if(this.f_name === "") {
+              this.fname_error = true;
+          }
+
+          else {
+              this.fname_error = false;
+          }
+
+          //TODO: escape risky chars
+      },
+
+      checkLName: function() {
+        //Don't leave first name blank
+        if(this.l_name === "") {
+          this.lname_error = true;
+        }
+
+        else {
+          this.lname_error = false;
+        }
+
+        //TODO: escape risky chars
+      },
+
+      checkEmail: function() {
+        //Don't leave first name blank
+        if(this.email === "") {
+          this.email_error = true;
+        }
+
+        else {
+          this.email_error = false;
+        }
+
+        //TODO: escape risky chars
+      },
+
+      checkPass: function() {
+        //Don't leave first name blank
+        if(this.password.length < 6) {
+          this.nullpass_error = true;
+        }
+
+        else {
+          this.nullpass_error = false;
+        }
+
+        //TODO: escape risky chars
+      }
+    }
+  })
+</script>
+
+<style>
+  .error {
+    border-color: #c00000;
+  }
+</style>

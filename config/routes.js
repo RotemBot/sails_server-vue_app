@@ -35,7 +35,8 @@ module.exports.routes = {
   '/': {
     view: 'vue-app/index'
   },
-  'post /updateCounter':'CounterController.updateCounter'
+  'post /updateCounter':'CounterController.updateCounter',
+  //'get /user/show/': 'UserController.show'
 
   /***************************************************************************
   *                                                                          *

@@ -1,0 +1,59 @@
+<form action="/user/create" method="post" class="form-signin" id="signup">
+  <h2 class="form-signin-heading">Create An Account</h2>
+
+  <!-- Display incorrect input messages -->
+  <% if(flash && flash.err) { %>
+  <ul class="alert alert-success">
+    <% Object.keys(flash.err).forEach(function(error) { %>
+    <li><%- JSON.stringify(flash.err[error]) %></li>
+    <% }) %>
+  </ul>
+  <% } %>
+
+  <input v-model="f_name" type="text" class="form-control" placeholder="First Name" name="first_name">
+
+  <input v-model="l_name" type="text" class="form-control" placeholder="Last Name" name="last_name">
+
+  <input v-model="title" type="text" class="form-control" placeholder="Title (optional)" name="title">
+
+  <input v-model="email" type="text" class="form-control" placeholder="Email" name="email">
+
+  <input v-model="password" type="password" class="form-control" placeholder="Password" name="password">
+
+  <input v-model="password_conf" type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation">
+  <br />
+
+  <input type="submit" class="btn btn-lg btn-primary btn-block" value="Create Account">
+  <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+</form>
+
+<link rel="stylesheet" href="/styles/form.css">
+
+<script>
+  new Vue({
+    el: "#signup",
+    data: {
+      f_name: "",
+      l_name: "",
+      title: "",
+      email: "",
+      password: "",
+      password_conf: ""
+
+    },
+    methods: {
+      submit: function() {
+        jQuery.post('http://localhost:1337/user/create', {
+            fName: this.f_name,
+            lName: this.l_name,
+            title: this.title,
+            email: this.email,
+            encPassword: this.password
+          },
+          function (data) {
+
+          });
+      }
+    }
+  })
+</script>

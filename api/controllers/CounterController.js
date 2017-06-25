@@ -20,10 +20,10 @@ module.exports = {
 
   show: function(req, res, next) {
     Counter.findOne({id: req.params['id']})
-      .exec(function foundUser(err, counter){
+      .exec(function foundCounter(err, counter){
         if(err) return next(err);
         if(!counter) return next();
-        res.view({
+        res.view('vue-app/counter/show',{
           counter: counter
         });
       });
